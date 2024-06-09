@@ -1,9 +1,10 @@
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.WebDriverRunner;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selectors.withText;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$x;
@@ -13,24 +14,32 @@ public class SelenideLesson1Test {
     static void setup() {
         Configuration.baseUrl = "https://github.com/selenide/selenide";
         Configuration.pageLoadStrategy = "eager";
+        Configuration.browserSize = "1366x768";
     }
 
+    /**
+     *  - Откройте страницу Selenide в Github
+     *  - Перейдите в раздел Wiki проекта
+     *  - Убедитесь, что в списке страниц (Pages) есть страница SoftAssertions
+     *  - Откройте страницу SoftAssertions, проверьте что внутри есть пример кода для JUnit5
+     */
     @Test
-    void selenideWikiSoftAssertionsPageHasCodeForeJUnit5Test() {
-        Selenide.open("/");
+    void checkInWikiForTextAvailability() {
+        Selenide.open("");
+        System.out.println("Real size: " + WebDriverRunner.getWebDriver().manage().window().getSize());
         // move to wiki page
         $("#wiki-tab").click();
         // find the SoftAssertions page in the list of Pages and open it
         $("#wiki-pages-filter").setValue("SoftAssertions");
         $("#wiki-pages-box a[href*='Soft']")
-                .shouldBe(Condition.visible).click();
+                .shouldBe(visible).click();
 
         //check that there is an example code for JUnit5 inside the page
         // check for header
         $(withText("Using JUnit5 extend test class"))
-                .shouldBe(Condition.visible);
+                .shouldBe(visible);
         // check for example text
         $x("//*[@class='markdown-heading' and .//*[contains(@id, 'using-junit5')]]/following-sibling::div[1]")
-                .shouldBe(Condition.visible);
+                .shouldBe(visible);
     }
 }
