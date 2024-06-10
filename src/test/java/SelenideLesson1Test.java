@@ -1,5 +1,4 @@
 import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverRunner;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -7,22 +6,20 @@ import org.junit.jupiter.api.Test;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selectors.withText;
 import static com.codeborne.selenide.Selenide.*;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$x;
 
 public class SelenideLesson1Test {
     @BeforeAll
     static void setup() {
         Configuration.baseUrl = "https://github.com/selenide/selenide";
         Configuration.pageLoadStrategy = "eager";
-        Configuration.browserSize = "1368x770";
+        Configuration.browserSize = "1366x768";
     }
 
     /**
-     *  - Откройте страницу Selenide в Github
-     *  - Перейдите в раздел Wiki проекта
-     *  - Убедитесь, что в списке страниц (Pages) есть страница SoftAssertions
-     *  - Откройте страницу SoftAssertions, проверьте что внутри есть пример кода для JUnit5
+     * - Откройте страницу Selenide в Github
+     * - Перейдите в раздел Wiki проекта
+     * - Убедитесь, что в списке страниц (Pages) есть страница SoftAssertions
+     * - Откройте страницу SoftAssertions, проверьте что внутри есть пример кода для JUnit5
      */
     @Test
     void checkInWikiForTextAvailability() {
