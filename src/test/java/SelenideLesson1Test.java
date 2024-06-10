@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selectors.withText;
+import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$x;
 
@@ -14,7 +15,7 @@ public class SelenideLesson1Test {
     static void setup() {
         Configuration.baseUrl = "https://github.com/selenide/selenide";
         Configuration.pageLoadStrategy = "eager";
-        Configuration.browserSize = "1366x768";
+        Configuration.browserSize = "1368x770";
     }
 
     /**
@@ -25,7 +26,7 @@ public class SelenideLesson1Test {
      */
     @Test
     void checkInWikiForTextAvailability() {
-        Selenide.open("");
+        open("");
         System.out.println("Real size: " + WebDriverRunner.getWebDriver().manage().window().getSize());
         // move to wiki page
         $("#wiki-tab").click();
@@ -39,7 +40,9 @@ public class SelenideLesson1Test {
         $(withText("Using JUnit5 extend test class"))
                 .shouldBe(visible);
         // check for example text
-        $x("//*[@class='markdown-heading' and .//*[contains(@id, 'using-junit5')]]/following-sibling::div[1]")
+        $x("//*[@id='wiki-body']//*[.//*[contains(@id, 'using-junit5')]]/following-sibling::div[1]")
+                .shouldBe(visible);
+        $x("//*[@id='wiki-body']//*[.//*[contains(@id, 'using-junit5')]]/following-sibling::div[2]")
                 .shouldBe(visible);
     }
 }
