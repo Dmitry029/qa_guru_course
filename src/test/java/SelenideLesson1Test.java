@@ -1,11 +1,11 @@
 import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.WebDriverRunner;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selectors.withText;
-import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.open;
 
 public class SelenideLesson1Test {
     @BeforeAll
@@ -24,7 +24,6 @@ public class SelenideLesson1Test {
     @Test
     void checkInWikiForTextAvailability() {
         open("");
-        System.out.println("Real size: " + WebDriverRunner.getWebDriver().manage().window().getSize());
         // move to wiki page
         $("#wiki-tab").click();
         // find the SoftAssertions page in the list of Pages and open it
@@ -33,13 +32,33 @@ public class SelenideLesson1Test {
                 .shouldBe(visible).click();
 
         //check that there is an example code for JUnit5 inside the page
-        // check for header
-        $(withText("Using JUnit5 extend test class"))
-                .shouldBe(visible);
         // check for example text
-        $x("//*[@id='wiki-body']//*[.//*[contains(@id, 'using-junit5')]]/following-sibling::div[1]")
-                .shouldBe(visible);
-        $x("//*[@id='wiki-body']//*[.//*[contains(@id, 'using-junit5')]]/following-sibling::div[2]")
-                .shouldBe(visible);
+        $("#wiki-body").shouldHave(text("@ExtendWith({SoftAssertsExtension.class}) " +
+                "class Tests { " +
+                "  @Test " +
+                "  void test() { " +
+                "    Configuration.assertionMode = SOFT; " +
+                "    open(\"page.html\"); " +
+                " " +
+                "    $(\"#first\").should(visible).click(); " +
+                "    $(\"#second\").should(visible).click(); " +
+                "  } " +
+                "}"
+        ));
+
+        $("#wiki-body").shouldHave(text("class Tests {\n" +
+                "  @RegisterExtension \n" +
+                "  static SoftAssertsExtension softAsserts = new SoftAssertsExtension();\n" +
+                "\n" +
+                "  @Test\n" +
+                "  void test() {\n" +
+                "    Configuration.assertionMode = SOFT;\n" +
+                "    open(\"page.html\");\n" +
+                "\n" +
+                "    $(\"#first\").should(visible).click();\n" +
+                "    $(\"#second\").should(visible).click();\n" +
+                "  }\n" +
+                "}"
+        ));
     }
 }
