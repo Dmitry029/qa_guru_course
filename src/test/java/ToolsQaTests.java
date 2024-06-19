@@ -70,5 +70,5 @@ public class ToolsQaTests {
         $("#dateOfBirthInput").sendKeys(date);
         $("#dateOfBirthInput").sendKeys(Keys.ENTER);
     }
-    // for demoqa
+    // for demoqa new
 }
