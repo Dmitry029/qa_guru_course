@@ -70,5 +70,4 @@ public class ToolsQaTests {
         $("#dateOfBirthInput").sendKeys(date);
         $("#dateOfBirthInput").sendKeys(Keys.ENTER);
     }
-    // should be deleted
 }
